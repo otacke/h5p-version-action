@@ -1,19 +1,47 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import * as core from "@actions/core";
+import { readLibrary } from "./utils";
+
+const options = {
+  workingDirectory: "working-directory",
+};
+
+const outputs = {
+  version: "version",
+  versionFormatted: "version-formatted",
+};
+
+function getOptions(): {
+  workingDirectory: string;
+} {
+  const workingDirectory = core.getInput(options.workingDirectory);
+
+  return {
+    workingDirectory,
+  };
+}
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    core.info("Getting options");
+    const { workingDirectory } = getOptions();
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.info("Finding library file");
+    const library = await readLibrary(workingDirectory);
 
-    core.setOutput('time', new Date().toTimeString())
+    const {
+      majorVersion: major,
+      minorVersion: minor,
+      patchVersion: patch,
+    } = library;
+
+    core.info("Outputting version info");
+    core.setOutput(outputs.version, { major, minor, patch });
+    core.setOutput(outputs.versionFormatted, `${major}.${minor}.${patch}`);
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message);
+    }
   }
 }
 
-run()
+run();
