@@ -12,6 +12,7 @@ inputs:
     required: false
     description: The directory where library.json is found
     default: "."
+
 outputs:
   version:
     description: An object with the fields `major`, `minor` and `patch`
