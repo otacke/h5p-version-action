@@ -1,11 +1,24 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: H5P Version Action
+description: Outputs H5P library's version number
+
+author: Sindre Bøyum
+
+branding:
+  color: blue
+  icon: aperture
+
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  working-directory: # change this
+    required: false
+    description: The directory where library.json is found
+    default: "."
+outputs:
+  version:
+    description: An object with the fields `major`, `minor` and `patch`
+
+  version-formatted:
+    description: A string on the form `{majorVersion}.{minorVersion}.{patchVersion}`
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node16
+  main: dist/index.js
