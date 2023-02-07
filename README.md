@@ -15,7 +15,7 @@ This action reads the version number from `library.json` in an H5P project and o
 | Name                | Description                                                                         |
 | ------------------- | ----------------------------------------------------------------------------------- |
 | `version`           | The main version as a JSON string with the properties `major`, `minor`, and `patch` |
-| `version-formatted` | The main version as a string on the format `x.y.z`                                  |
+| `version-formatted` | The main version as a string on the format `major.minor.patch`                      |
 
 ## Development
 
